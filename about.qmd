@@ -1,0 +1,12 @@
+---
+title: "About"
+format: html
+editor: visual
+---
+
+This project was developed by **Team 5** For [STA 199: Introduction to Data Science](https://sta199-f23-2.github.io/) at Duke University. The team is comprised of the following team members.
+
+-   Team member 1: Carmen Hall, '26, Bio. Fun fact: Carmen loves snowboarding, and was ranked in her state of Florida from 2015-2016.
+-   Team member 2: Talia West, '26, PubPol. Fun Fact: Talia has fractured six bones in her lifetime!
+-   Team member 3: Julia Young, '26, PoliSci. Fun Fact: Julia's favorite hobby right now is knitting while watching Sister Wives.
+-   Team member 4: Harmony McMullen, '24, Psych. Fun Fact: Harmony has two dogs named Beans and Toast respectively.

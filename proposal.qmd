@@ -1,0 +1,178 @@
+---
+title: "Team 5 Proposal"
+subtitle: "Proposal"
+format: html
+editor: visual
+bibliography: references.bib
+---
+
+```{r}
+#| label: load-pkgs
+#| message: false
+
+library(tidyverse)
+```
+
+# Data 1
+
+## Introduction and data
+
+This data comes from the Common Core of Data (CCD), which is the Department of Education's primary database on public elementary and secondary education in the US. This is a comprehensive, annual, national database. Austin Cory Bart is the individual who pulled public data from CCD and created the dataset that was published on October 24, 2016. The dataset consists of information on over 575 students' average GPA per subject, SAT and subject test scores, state of residency, and family income, per year. There is a concern that this data can create misguided conclusions and perpetuate stereotypes and misconceptions based on academic scores and socioeconomic status.
+
+## Research question
+
+How does average household income affect a student's development in each school subject throughout the United States, between the years of 2005 and 2015?
+
+It is important to know how financial status is affecting students and the new generation. The country can then take steps to work towards improving education for all if there is a problem found. Economic status should not negatively impact children and their ability to get a proper education and succeed in the world. Education is very important as it creates not only a better society with well informed citizens, but also allows for students to later get better paying jobs and create a strong workforce.
+
+The research will use the average math and verbal scores of students per year who reported that their family income was in certain income brackets. Those income brackets range from less than 20k, 20-40k, 40-60k, 60-80k, 80-100k, and more than 100k. A negative or positive correlation can then be analyzed. The variables are average math score, average verbal scores, and family income bracket. The average math and verbal scores are quantitative variables. The family income bracket is a categorical variable. If state and year are also later analyzed, they are also both categorical variables.
+
+The hypothesis is that if students have a low family income of 60k or below, their average math and verbal scores will be lower than students who have a family income of higher than 60k, due to the fact they likely have more resources to strengthen their academic skills such as going to better academic institutions.
+
+## Literature
+
+-   Find one published credible article on the topic you are interested in researching.
+
+The Widening Academic Achievement Gap Between the Rich and the Poor (researchgate.net)[@reardon2018]
+
+-   Provide a one paragraph summary about the article.
+
+Despite education being viewed as an equalizer in society, many studies in recent years have highlighted a widening education gap depending on affluence and household income. While the educational gap based on race has shrunk since the 60s, imbalance in college completion and test scores has grown by 40% since the 60s. There are many factors that contribute to this increasing gap in education including differences in resources, time, and other high-stress variables.
+
+-   In 1-2 sentences, explain how your research question builds on / is different than the article you have cited.
+
+Our research question builds on the article's focus on the recent discovery that income levels affect education. Rather than focusing on college completion or overall test scores, we will focus on specific school subjects and how they differ based on income levels.
+
+## Glimpse of data
+
+```{r}
+#| label: load-data-1
+
+school_scores <- read_csv("data/school_scores.csv")
+glimpse(school_scores) 
+
+```
+
+# Data 2
+
+## Introduction and data
+
+-   Identify the source of the data.
+
+    -   <https://ucr.fbi.gov/crime-in-the-u.s/2019/crime-in-the-u.s.-2019/downloads/download-printable-files>
+
+-   State when and how it was originally collected (by the original data curator, not necessarily how you found the data).
+
+    -   This data was collected from 1960-2019. The dataset was created by Ryan Whitcomb, Joung Min Choi and Bo Guan on 10/19/2021. This data comes from the Unified Crime Reporting Statistics and from the collaboration of the U.S. Department of Justice and the Federal Bureau of Investigation information crime statistics. These data are for public review.
+
+-   Write a brief description of the observations.
+
+    -   This dataset includes observations on crime rates and totals for states across the US from 1960-2019. This includes numbers of reported property crime and violent crime per 100,000 population.
+
+-   Address ethical concerns about the data, if any.
+
+    -   This data does not include any information on the racial makeup of states - when interpreting the data, this may cause bias in how crime rates are viewed in certain states. There is also no identifiers regarding certain kinds of laws in states; for example, states with more relaxed gun laws may have increased crime rates. Without this knowledge, the change in crime rates may be attributed to other factors.
+
+## Research question
+
+-   A well formulated research question. (You may include more than one research question if you want to receive feedback on different ideas for your project. However, one per data set is required.)
+
+    -   Over the years, have crime rates (property and violent) increased more in certain regions of the country?
+
+-   Statement on why this question is important.
+
+    -   This question is important as it allows rates to be investigated and certain patterns of crimes throughout the country. In visualizing these patterns, areas where more crime occurs can be identified and actions can be put into place to prevent crime.
+
+-   A description of the research topic along with a concise statement of your hypotheses on this topic.
+
+    -   This research topic focuses specifically on crime rates (rather than totals) to account for population growth in the country. I hypothesize that crime rates will have increased more in the southern region of the country, as this region typically has higher crime rates, especially for violent crimes.
+
+-   Identify the types of variables in your research question. Categorical? Quantitative?
+
+    -   In the research question, year is a categorical numerical variable. Crime rate is a dependent quantitative variable. Region of the country is an independent categorical variable.
+
+## Literature
+
+-   Find one published credible article on the topic you are interested in researching.
+
+Structural Characteristics, Population Areas, and Crime Rates in the United States on JSTOR[@quinney1966]
+
+-   Provide a one paragraph summary about the article.
+
+Previous research has established that crime rates differ depending on geographical distribution in the U.S., specifically with a gradient pattern. This paper furthers this research by determining how crime rates change depending on the structure of geographical areas, using the three categorizations of rural areas, urban areas, and standard metropolitan statistical areas. The ultimate conclusion is that crime is a social phenomena and that the relationship between crime rate and structure of geographical area depends on the type of crime being measured.
+
+-   In 1-2 sentences, explain how your research question builds on / is different than the article you have cited.
+
+Though this article observes the general trends of property and violent crimes across different geographical structures, it does not study any specific cities. We will incorporate the addition of the region variable to observe if crime rates change depending on the region of the U.S. 
+
+## Glimpse of data
+
+```{r}
+#| label: load-data-2
+
+state_crime <- read_csv("data/state_crime.csv")
+
+glimpse(state_crime)
+```
+
+# Data 3
+
+## Introduction and data
+
+-   Identify the source of the data.
+
+    The data was initially pulled from Forbes World's Billionaires list from 1996 to 2014. Researchers at the Peterson Institute for International Economics expanded on this research by adding multiple variables to the data set. 
+
+-   State when and how it was originally collected (by the original data curator, not necessarily how you found the data).
+
+    To curate their annual list of global billionaires, Forbes assigns a specific team to create an exhaustive list. This team conducts online research (such as analyzing SEC and other government documents, news articles, and general records), interviews candidates and their teams when possible, and consults financial experts to better estimate fortune value. Forbes began publishing this research in 1987, but our dataset begins with the year 1996. Thus, they likely began research for this dataset in the mid 1990's. For the additional variables, Peterson Institute researchers obtained information through both Forbes' numerous biographies, news articles, and other websites, and internet and LexisNexis searches.  
+
+-   Write a brief description of the observations.
+
+     The dataset contains over 2000 observations on billionaires, covering multiple characteristics for each fortune holder. Demographic information such as name, age, gender, citizenship, and home country are listed, as well as information about the billionaire's company.  Wealth-related data is broken up into the variables "wealth.worth in billions" (which identifies net worth), "wealth.how.industry" (which industry this wealth was accumulated through), "wealth.how.inherited" (if this wealth was inherited and from whom), and other similar variables. Data is organized by rank, with the "1" spot indicating the highest aggregate wealth. Rank is taken from separate annual lists so that wealth is compared in the context of the year it was earned. 
+
+-   Address ethical concerns about the data, if any.
+
+    Though the dataset addresses inherited data, it does not make note of other factors that could explain why it is much easier for certain demographics (male, White) to achieve this status than others. Readers of the dataset are not given relevant context: that gender and racial bias ingrained in society prevent many earners from achieving billionaire status. Self-made billionaires could rank higher on an imaginary variable of connectivity. That is, due to their initial economic status, gender, or race, they have the connections to more easily climb the ranks of society. Race is not mentioned as a variable either, which removes an important trend from the data. The lack of certain variables or the absence of more nuanced variables presents a limited picture of the makeup and background of billionaires from 1996 to 2014. 
+
+## Research question
+
+-   A well formulated research question. (You may include more than one research question if you want to receive feedback on different ideas for your project. However, one per data set is required.)
+
+    Is there a relationship between how a billionaire acquires his/her fortune and his/her home country? 
+
+-   Statement on why this question is important.
+
+    It is important to examine if a certain country far exceeds others in production of "self-made" billionaires to test the functionality of a country's economy (maybe a supposed capitalist country actually does not have many self-made billionaires, which puts into question this designation). This test can also reveal a country's underlying characteristics, like if a country is built off of tremendous wealth (maybe only a few families have massive amounts of wealth which is inherited).various findings could also help explain immigration trends over time, political actions, and world standing.  
+
+-   A description of the research topic along with a concise statement of your hypotheses on this topic.
+
+    The research topic questions whether there is a relationship or not between how a billionaire acquired his/her fortune and his/her home country. A fortune can be self-made or inherited (if inherited, the dataset notes from whom the money was acquired). The country variable identifies what country the billionaire is from. My hypothesis is that the largest proportion of self-made billionaires will be in the U.S., while the largest proportion billionaires who have inherited their wealth will be from countries with roots steeped in wealth or a small percentage of families who have been rich for a long time. 
+
+-   Identify the types of variables in your research question. Categorical? Quantitative?
+
+    My research question primarily addresses the variables name (categorical), rank (quantitative), year (categorical), location.country code (categorical), location.region (categorical), wealth.worth in billions (quantitative), and wealth.how.inherited (categorical).
+
+## Literature
+
+-   Find one published credible article on the topic you are interested in researching.
+
+Why Some Countries Have More Billionaires Than Others?: Explaining Variations in the Billionaire-Intensity of GDP[@popov2018]
+
+-   Provide a one paragraph summary about the article.
+
+Forbes annually publishes a list of billionaires and their wealth, allowing the author to compare the number of billionaires per unit of GDP and the ratio of the wealth of these billionaires to the GDP of various countries. The paper found that rich and well developed tax havens tended to have more billionaires while less developed countries with low personal income taxes had lower billionaires. The determination of life expectancy also served as a strong predictor of the rate of billionaires per country.
+
+-   In 1-2 sentences, explain how your research question builds on / is different than the article you have cited.
+
+Though this article has quantified the number of billionaires per country and explored potential reasons for a higher or lower number of billionaires per country, it doesn't account for how these billionaires acquire their wealth. In order to explore these potential reasons accurately, we will analyze the cause of the billionaires' wealth in addition to the home country and billionaires per country.
+
+## Glimpse of data
+
+```{r}
+#| label: load-data-3
+
+billionaire_forbes <- read_csv("data/billionaires (3).csv")
+
+glimpse(billionaire_forbes)
+```

@@ -1,0 +1,352 @@
+---
+title: "Household Income on School Performance - Public Elementary and Secondary US"
+subtitle: "Report"
+format: html
+editor: visual
+bibliography: references.bib
+execute:
+  echo: false
+---
+
+```{r}
+#| label: load-pkgs
+#| message: false
+
+library(tidyverse)
+library(ggplot2)
+library(ggridges) 
+library(tidymodels)
+```
+
+## Introduction and Data
+
+This data comes from the Common Core of Data (CCD)[@USDE], which is the Department of Education's primary database on public elementary and secondary education in the US. This is a comprehensive, annual, national database. Austin Cory Bart is the individual who pulled public data from CCD and created the dataset that was published on October 24, 2016. The dataset consists of information on over 575 students' average GPA per subject, SAT and subject test scores, state of residency, and family income, per year. There is a concern that this data can create misguided conclusions and perpetuate stereotypes and misconceptions based on academic scores and socioeconomic status.
+
+### Research question
+
+How does average household income affect US students' development in each school subject between the years of 2005 and 2015?
+
+#### Motivation
+
+It is important to know how financial status is affecting students and the new generation. The country can then take steps to work towards improving education for all if there is a problem found. Economic status should not negatively impact children and their ability to get a proper education and succeed in the world. Education is very important as it creates not only a better society with well informed citizens, but also allows for students to later get better paying jobs and create a strong workforce.
+
+#### Method of Analysis
+
+The research will use the average math and verbal scores of students per year who reported that their family income was in certain income brackets. Those income brackets range from less than 20k, 20-40k, 40-60k, 60-80k, 80-100k, and more than 100k. A negative or positive correlation can then be analyzed. The variables are average math score, average verbal scores, and family income bracket. The average math and verbal scores are quantitative variables. The family income bracket is a categorical variable. If state and year are also later analyzed, they are also both categorical variables. We are including a new categorical variable of "region" based on states to control this variable.
+
+#### Hypothesis
+
+The hypothesis is that students with a household income below the median of 60k will have lower math and verbal scores on average than their counterparts with family incomes higher than 60k. This may be because they likely have more resources to strengthen their academic skills such as private tutoring, a stress-free home environment, and parents who have achieved higher education; however, we cannot confirm that there is a causal relationship from this data.
+
+### Data Glimpse
+
+```{r}
+#| label: load-data-1
+
+school_scores <- read_csv("data/school_scores.csv")
+
+```
+
+#### Edited Data
+
+```{r}
+#| label: edited down data
+edited_school_scores <- school_scores|>
+  select(State.Name, Total.Math, Total.Verbal, `Family Income.Between 20-40k.Math`, `Family Income.Between 20-40k.Verbal`, `Family Income.Between 40-60k.Math`, `Family Income.Between 40-60k.Verbal`, `Family Income.Between 60-80k.Math`, `Family Income.Between 60-80k.Verbal`, `Family Income.Between 80-100k.Math`, `Family Income.Between 80-100k.Verbal`, `Family Income.Less than 20k.Math`, `Family Income.Less than 20k.Verbal`, `Family Income.More than 100k.Math`, `Family Income.More than 100k.Verbal`)  
+
+edited_school_scores <- edited_school_scores |> 
+  mutate(state = State.Name, `average.math.score_20k.to.40k` = `Family Income.Between 20-40k.Math`,
+    `average.verbal.score_20k.to.40k` = `Family Income.Between 20-40k.Verbal` ,
+     `average.math.score_40k.to.60k` = `Family Income.Between 40-60k.Math`,
+     `average.verbal.score_40k.to.60k` =  `Family Income.Between 40-60k.Verbal`,
+     `average.math.score_60k.to.80k` =  `Family Income.Between 60-80k.Math` ,
+     `average.verbal.score_60k.to.80k` =   `Family Income.Between 60-80k.Verbal`,
+      `average.math.score_80k.to.100k` =  `Family Income.Between 80-100k.Math`,
+     `average.verbal.score_80k.to.100k` = `Family Income.Between 80-100k.Verbal`,
+       `average.math.score_100k+` = `Family Income.More than 100k.Math`,
+       `average.verbal.score_100k+` = `Family Income.More than 100k.Verbal`,
+        `average.math.score_20k-` = `Family Income.Less than 20k.Math`,
+        `average.verbal.score_20k-` = `Family Income.Less than 20k.Verbal`)|>
+  select(state, `average.math.score_20k.to.40k`, `average.verbal.score_20k.to.40k`, `average.math.score_40k.to.60k`, `average.verbal.score_40k.to.60k`, `average.math.score_60k.to.80k`, `average.verbal.score_60k.to.80k`, `average.math.score_80k.to.100k`, `average.verbal.score_80k.to.100k`, `average.math.score_100k+`, `average.verbal.score_100k+`, `average.math.score_20k-`, `average.verbal.score_20k-`)
+```
+
+Here, we select variables from the data associated with our research question. We only selected variables concerning the average math and verbal scores of students whose reported family income was less than 20k, 20k-40k, 40k-60k, 60k-80k, 80k-100k, and greater than 100k, respectively. Filtering this data allows us to better look at the relationship among these variables.
+
+#### Addition of the Region Variable
+
+```{r}
+#| label: adding region variable
+
+stateNames <- tibble(state = as.character(state.name),Region.Name = as.character(state.region))
+
+edited_school_scores <- inner_join(edited_school_scores, stateNames, by = c("state")) 
+
+head(edited_school_scores,10)
+
+```
+
+## Literature Review
+
+Despite education being viewed as an equalizer in society, many studies in recent years have highlighted a widening education gap depending on affluence and household income. While the educational gap based on race has shrunk since the 60s, imbalance in college completion and test scores has grown by 40% since the 60s.[@reardon2018] There are many factors that contribute to this increasing gap in education including differences in resources, time, and other high-stress variables.
+
+Our research question builds on the article's focus on the recent discovery that income levels affect education. Rather than focusing on college completion or overall test scores, we will focus on specific school subjects and how they differ based on income levels.
+
+## Methodology
+
+#### Longer Pivot
+
+```{r}
+#| label: pivot longer
+longer_edited_school_scores <- edited_school_scores|> 
+  select(-Region.Name)  |>
+  pivot_longer(
+    cols = -state,
+    names_to = "Income",
+    values_to = "Score",
+  ) |> 
+  separate(Income , sep = "_", into = c("Type of Test" , "Income")) |>
+  mutate(
+    Income = as.factor(Income),
+    Income = fct_relevel(Income, "20k-", "20k.to.40k", "40k.to.60k", "60k.to.80k", "80k.to.100k", "100k+")
+  )
+
+view(longer_edited_school_scores)
+```
+
+Figure 1: Barchart of State by Income with Type of Test and Region
+
+```{r}
+#| label: barchart-by-region
+#| fig-width: 15
+#| fig-height: 10
+
+longer_edited_school_scores_2 <- edited_school_scores |> 
+  pivot_longer(
+    cols = -c("state", "Region.Name"),
+    names_to = "Income",
+    values_to = "Score",
+  ) |> 
+  separate(Income , sep = "_", into = c("Type of Test" , "Income")) |>
+  mutate(
+    Income = as.factor(Income),
+    Income = fct_relevel(Income, "20k-", "20k.to.40k", "40k.to.60k", "60k.to.80k", "80k.to.100k", "100k+")
+  )
+#view(longer_edited_school_scores_2)  
+
+longer_edited_school_scores_2 |>
+  ggplot(
+    aes(x = Income, y = Score, fill = `Type of Test`)
+  ) +
+  geom_col(position = "dodge") +
+  coord_cartesian(ylim = c(450, NA)) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1), text = element_text(size = 20))+
+  labs(title = "Scores per Test and Region",
+       subtitle = "Based on National Verbal and Math Scores 
+of Elementary and Secondary Students",
+        y = "Student Test Score") +
+    scale_fill_discrete(labels=c('Average Math Score', 'Average Verbal Score')) +
+  facet_wrap( ~Region.Name) 
+
+```
+
+We used a barchart due to the variables we were analyzing and the relationships we wanted to assess. For a barchart, we could facet into different regions, compare the categorical variable of income with the quantitative variable of average score, and furthermore differentiate between verbal and math scores using "fill". Our new variable, Region.Name, allowed us to facet this - we created this variable above with each state in their respective region and joined it with our dataset.
+
+#### Figure 2: Ridgeline of Score vs Income
+
+```{r}
+#| label: ridgeline totalled
+longer_edited_school_scores |>
+  filter(Score>300 & Score<600) |>
+ggplot(aes(x = Score, fill = Income, y = Income)) +
+  geom_density_ridges() +
+  theme_ridges()+
+  theme(legend.position = "none")+
+  labs(x = "Student Test Score",
+       color = "Household Income",
+       title = "Score vs Income" ,
+       subtitle = "Based on National Verbal and Math Scores 
+of Elementary and Secondary Students")
+
+```
+
+#### Figure 3: Ridgeline of Score vs Income with Type of Test
+
+```{r}
+#| label: ridgeline verbal vs math
+longer_edited_school_scores |>
+  filter(Score>300 & Score<600) |>
+ggplot(aes(x = Score, fill = `Type of Test`, y = Income, label = `Type of Test`)) +
+  geom_density_ridges() +
+  theme_ridges()+
+  labs(x = "Student Test Score",
+       color = "Household Income",
+       title = "Score vs Income" ,
+       subtitle = "Based on National Verbal and Math Scores 
+of Elementary and Secondary Students",
+       fill = "Type of Test")+
+   scale_fill_discrete(labels=c('Math Scores', 'Verbal Scores')) 
+ 
+```
+
+We chose to use a ridgeline model because it's easy to interpret the different distributions of scores per income category. We can also see general trends in frequency and range of scores through the ridgeline model. It is easier to see the highest frequency (highest peak) of scores per income level than if we had used a boxplot.
+
+#### Figure 4: Linear Regression of Income and Region on Score
+
+```{r}
+#| label: linear-regression 	 
+linear_reg <- linear_reg() |>
+  set_engine("lm") |>
+  fit(Score ~ Income + Region.Name, data = longer_edited_school_scores_2)
+
+tidy(linear_reg) 
+
+
+```
+
+#### Figure 5: Linear Regression Equation
+
+$$
+\widehat{score} = 497.91 + 41.4*Income.20k.to.40k + 63.22*Income.40k.to.60k \\ + 73.72*Income.60k.to.80k + 84.77*Income.80k.to.100k \\ + 102.21*Income.+100k - 57.33*Northeast  \\ 
+- 42.3*South - 37.86*West
+$$
+
+#### Analysis of Figures 1-4
+
+Upon analyzing the first visualization there appears to be a positive correlation between household income and national math and verbal scores of elementary and secondary students. This graph uses a combination of both math and verbal scores to show a general trend between academics and household income, regardless of subject. Using the density ridges plot, allows the graph to show the frequency of each test score. The students with a household income of 20k showed the highest frequency of test scores at about 425 while students with a household income of 100k+ had the highest frequency of test scores at about 550. This visualization showed a positive linear correlation between the two variables.
+
+The second visualization was created to allow distinction between regions and the test academic subjects, therefore introducing region as a new variable. This graph provides more insight into if geographic location affects the relationship between average test scores and household income. The results showed that the South and Northeast showed a more positive linear correlation between the two variables, while the North Central and West regions showed more variability yet a slight positive correlation as well.
+
+#### Justification for Regression Model Selection and Analysis of Linear Regression Equation
+
+We decided to use the additive linear regression model rather than the interactive linear regression model because we wanted to be able to isolate the relationship of family income on score versus region on score. Additionally, a linear model is used when a response variable is quantitative (which ours is), while logistic is used when a response variable is categorical. If we hold region constant, a student with a family income of 20-40k can expect an on average 41 point increase in score above the baseline, which is the on average score of a student with a family income of less than 20k. Students with a family income of 40-60k can expect a 63 point increase on average above the less than 20k students. This trend of higher scores on average continues as family income increases. Keeping income constant, students from the Northeast region score 57 less points on average than students from the Northcentral region (baseline region). South region students score 42 points less on average than Northcentral students, and West students score 38 points less on average than Northcentral students.
+
+The pattern of an increase in score coinciding with an increase in family income lends significance to our hypothesis that family income affects students' scores, specifically that students with a higher family income on average score higher. The regions finding appear to have a significance, but we do not know enough about regional education relationships to interpret this significance. The linear regression clearly points to the Northcentral students as the highest scorers on average, with West students on average scoring the second highest, South as the third lowest on average, and North east as the overall lowest on average.
+
+#### AIC Analysis of Potential Regression Models
+
+```{r}
+#| label: AIC-diagnostics 
+
+linear_reg() |>
+  set_engine("lm") |>
+  fit(Score ~ 1 , data = longer_edited_school_scores_2
+    ) #|>
+ # glance() |>
+  #pull(AIC)
+
+basic_aic <- linear_reg() |>
+  set_engine("lm") |>
+  fit(Score ~ Income, data = longer_edited_school_scores_2)
+
+#glance(basic_aic)$AIC 
+
+add_aic <- linear_reg() |>
+  set_engine("lm") |>
+  fit(Score ~ Income + `Type of Test`, data = longer_edited_school_scores_2)  
+
+#glance(add_aic)$AIC 
+
+add_aic_region <- linear_reg() |>
+  set_engine("lm") |>
+  fit(Score ~ Income + Region.Name, data = longer_edited_school_scores_2) 
+
+#glance(add_aic_region)$AIC 
+
+int_aic <- linear_reg() |>
+  set_engine("lm") |>
+  fit(Score ~ Income*`Type of Test`, data = longer_edited_school_scores_2)
+
+#glance(int_aic)$AIC 
+
+int_aic_region <- linear_reg() |>
+  set_engine("lm") |>
+  fit(Score ~ Income*Region.Name, data = longer_edited_school_scores_2) 
+
+#glance(int_aic_region)$AIC 
+
+int_aic_region_type <- linear_reg() |>
+  set_engine("lm") |>
+  fit(Score ~ Income*Region.Name*`Type of Test`, data = longer_edited_school_scores_2) 
+
+#glance(int_aic_region_type)$AIC 
+
+add_aic_region_type <- linear_reg() |>
+  set_engine("lm") |>
+  fit(Score ~ Income+Region.Name+`Type of Test`, data = longer_edited_school_scores_2) 
+
+#glance(add_aic_region_type)$AIC 
+
+
+```
+
+```{r}
+#| label: AIC Table
+df <- data.frame(type_of_test=c("Control AIC", "Basic Linear", "Additive Type of Test", "Additive Region", "Interactive Type of Test", "Interactive Region", "Interactive Both", "Additive Both"),
+                 aic=c(71547.95, 68720.25, 68717.52, 67264.2, 68723.34, 67182.58,  67208.83,  67260.3))
+
+df
+```
+
+#### Justification for Choice of AIC Over R Squared
+
+We decided to use AIC, a measure of likelihood (how well a model fits the data), rather than R squared because AIC penalizes the addition of new predictors while R\^2 rewards (sometimes artificially) the addition of new variables, no matter how related to the topic those variables are. Since we have worked with models that artificially inflate R squared scores when more variables are added and we knew we wanted to add additional variables to the model, we decided to veer away from the R squared model and try AIC. Because the equation to determine AIC has a negative before the log likelihood, lower AIC values are indicative of better model fits. Based on our forward selection analysis, the best model fit is an interactive model using the explanatory variables of region and score and exclusing the variable of type of test. Because adding type of test as an additional variable in our linear models leaves us with a higher AIC, ultimately we've decided not to create different graphs isolating reading or math scores.
+
+### Hypothesis Test
+
+#### Data for Hypothesis
+
+```{r}
+#| label: hypothesis data 
+hyp_data <- longer_edited_school_scores_2 |>
+  mutate(versus_median = if_else(Income %in% c("20k.to.40k", "40k.to.60k", "20k-"), "Less", "Greater"))|> 
+  group_by(versus_median)
+hyp_data_mean <- hyp_data|>
+  summarize(mean_score = mean(Score)) 
+  glimpse(hyp_data)
+  #551.1405 - 499.1104 = 52.0301
+
+```
+
+```{r}
+#| label: null distribution
+set.seed(12345)
+null_dist <- hyp_data|>
+  specify(response = Score, explanatory = versus_median) |>
+  hypothesize(null = "independence") |>
+  generate(reps = 1000, type = "permute") |>
+  calculate(stat = "diff in means", order = c("Greater", "Less"))
+null_dist|>
+  ggplot(aes(x = stat)) +
+  geom_histogram() +
+  geom_vline(xintercept = 52.0301)
+```
+
+```{r}
+#| label: p val calculation
+null_dist |>
+  get_p_value(obs_stat = 52.0301, direction = "two sided")
+```
+
+We have conducted a hypothesis test in order to determine whether we can fail to reject the null hypothesis that the true mean score for students with family incomes less than 60k is equal to the true mean score for students with family incomes greater than 60k. Through visualizations, it appears as though there is a trend towards a difference between true mean scores of students with family incomes less than 60k versus greater than 60k, but we conduct a hypothesis test in order to assess whether our sample mean is an unusual observation under the assumption of the null hypothesis. Since it is (and the p-value is significantly small), we can then reject the null hypothesis.
+
+Decision: With a very small p-value, we reject the null hypothesis that the true mean score for students with family incomes less than 60k is equal to the true mean score for students with family incomes greater than 60k.
+
+Conclusion: We have strong evidence to conclude that the true mean score for students with family incomes less than 60k is not equal to the true mean score for students with family incomes greater than 60k.
+
+## Results
+
+Overall, these two visualizations and the linear regression model as well as our hypothesis test and significantly small p-value support the idea that average household income affects a student's development in school.
+
+The visual outputs from our two visualizations align with the output from out additive linear regression model. For example: for region, the facet of Northcentral has higher scores in the bar graph while Northcentral on average has the highest scores in the linear regression model. There was a clear positive trend between family income and score in our ridgeline model which was reflected in the positive trend between higher scores on average and an increase in family income in the linear regression model.
+
+As the average household income increased so did the average verbal and math scores, regardless of region. There appears to be a significance in the pattern of data that falls in line with our hypothesis since both visualizations and our model showed that students with a household income below the median of 60k had on average lower math and verbal scores than families above the median. These students are more likely to have socioeconomic factors that impact their development in school. However, it can be assessed as to how generalizeable this data can be for the public as there was no information provided as to how this data was collected, it can not be confirmed if random sampling was used.
+
+### Discussion
+
+We can reject the null hypothesis that the true mean of scores of students that come from lower income households (less than 60k) is equal to the true mean of scores of students that come from higher income households (greater than 60k). Furthermore, based on our figures including a bar chart and two ridgeline graphs, we have observed a trend towards a higher score when a student has a higher family income. Finally, it appears as though region has an impact on the strength of correlation between income and score, but that must be further exained. Our hypothesis test led us to fail to reject the null hypothesis, which corroborated our hypothesis and the observations we made of our visualizations and additive linear regression model.
+
+Because education and testing is impacted by a variety of different factors that we were unable to control for, including variables like quality of school district, teacher skill, level of parental involvement, we are unable to determine a causal relationship between income and score. Additionally, we are assuming that the data is accurate and collected bias-free, which is something we cannot verify without a conversation with the scholars who collected the Department of Education Data.
+
+We hope to build upon this research in the future in two ways: first, by controlling more variables to create a more accurate model and second, by exploring the relationship between region and score to a greater extent. We did not run a hypothesis test for the potential of a difference in score based on region or specifically one income level to another which could be a potential area for further research.
+
+We could potentially control the additional variables that impact education by creating another dataset with more information about students, including their level of parental involvement in their education and the funding of their school.

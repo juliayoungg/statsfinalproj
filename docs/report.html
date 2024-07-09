@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Household Income on School Performance - Public Elementary and Secondary US</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html" rel="" target="">
+ <span class="menu-text">Team 5</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./proposal.html" rel="" target="">
+ <span class="menu-text">Proposal</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./presentation.pdf" rel="" target="">
+ <span class="menu-text">Presentation</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="./report.html" rel="" target="" aria-current="page">
+ <span class="menu-text">Report</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html" rel="" target="">
+ <span class="menu-text">About</span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools ms-auto">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction-and-data" id="toc-introduction-and-data" class="nav-link active" data-scroll-target="#introduction-and-data">Introduction and Data</a>
+  <ul class="collapse">
+  <li><a href="#research-question" id="toc-research-question" class="nav-link" data-scroll-target="#research-question">Research question</a></li>
+  <li><a href="#data-glimpse" id="toc-data-glimpse" class="nav-link" data-scroll-target="#data-glimpse">Data Glimpse</a></li>
+  </ul></li>
+  <li><a href="#literature-review" id="toc-literature-review" class="nav-link" data-scroll-target="#literature-review">Literature Review</a></li>
+  <li><a href="#methodology" id="toc-methodology" class="nav-link" data-scroll-target="#methodology">Methodology</a>
+  <ul class="collapse">
+  <li><a href="#hypothesis-test" id="toc-hypothesis-test" class="nav-link" data-scroll-target="#hypothesis-test">Hypothesis Test</a></li>
+  </ul></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a>
+  <ul class="collapse">
+  <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">Discussion</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Household Income on School Performance - Public Elementary and Secondary US</h1>
+<p class="subtitle lead">Report</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="introduction-and-data" class="level2">
+<h2 class="anchored" data-anchor-id="introduction-and-data">Introduction and Data</h2>
+<p>This data comes from the Common Core of Data (CCD)<span class="citation" data-cites="USDE">(<a href="#ref-USDE" role="doc-biblioref">Education. 2023</a>)</span>, which is the Department of Education’s primary database on public elementary and secondary education in the US. This is a comprehensive, annual, national database. Austin Cory Bart is the individual who pulled public data from CCD and created the dataset that was published on October 24, 2016. The dataset consists of information on over 575 students’ average GPA per subject, SAT and subject test scores, state of residency, and family income, per year. There is a concern that this data can create misguided conclusions and perpetuate stereotypes and misconceptions based on academic scores and socioeconomic status.</p>
+<section id="research-question" class="level3">
+<h3 class="anchored" data-anchor-id="research-question">Research question</h3>
+<p>How does average household income affect US students’ development in each school subject between the years of 2005 and 2015?</p>
+<section id="motivation" class="level4">
+<h4 class="anchored" data-anchor-id="motivation">Motivation</h4>
+<p>It is important to know how financial status is affecting students and the new generation. The country can then take steps to work towards improving education for all if there is a problem found. Economic status should not negatively impact children and their ability to get a proper education and succeed in the world. Education is very important as it creates not only a better society with well informed citizens, but also allows for students to later get better paying jobs and create a strong workforce.</p>
+</section>
+<section id="method-of-analysis" class="level4">
+<h4 class="anchored" data-anchor-id="method-of-analysis">Method of Analysis</h4>
+<p>The research will use the average math and verbal scores of students per year who reported that their family income was in certain income brackets. Those income brackets range from less than 20k, 20-40k, 40-60k, 60-80k, 80-100k, and more than 100k. A negative or positive correlation can then be analyzed. The variables are average math score, average verbal scores, and family income bracket. The average math and verbal scores are quantitative variables. The family income bracket is a categorical variable. If state and year are also later analyzed, they are also both categorical variables. We are including a new categorical variable of “region” based on states to control this variable.</p>
+</section>
+<section id="hypothesis" class="level4">
+<h4 class="anchored" data-anchor-id="hypothesis">Hypothesis</h4>
+<p>The hypothesis is that students with a household income below the median of 60k will have lower math and verbal scores on average than their counterparts with family incomes higher than 60k. This may be because they likely have more resources to strengthen their academic skills such as private tutoring, a stress-free home environment, and parents who have achieved higher education; however, we cannot confirm that there is a causal relationship from this data.</p>
+</section>
+</section>
+<section id="data-glimpse" class="level3">
+<h3 class="anchored" data-anchor-id="data-glimpse">Data Glimpse</h3>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 577 Columns: 99
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (2): State.Code, State.Name
+dbl (97): Year, Total.Math, Total.Test-takers, Total.Verbal, Academic Subjec...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+</div>
+<section id="edited-data" class="level4">
+<h4 class="anchored" data-anchor-id="edited-data">Edited Data</h4>
+<p>Here, we select variables from the data associated with our research question. We only selected variables concerning the average math and verbal scores of students whose reported family income was less than 20k, 20k-40k, 40k-60k, 60k-80k, 80k-100k, and greater than 100k, respectively. Filtering this data allows us to better look at the relationship among these variables.</p>
+</section>
+<section id="addition-of-the-region-variable" class="level4">
+<h4 class="anchored" data-anchor-id="addition-of-the-region-variable">Addition of the Region Variable</h4>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 14
+   state    average.math.score_2…¹ average.verbal.score…² average.math.score_4…³
+   &lt;chr&gt;                     &lt;dbl&gt;                  &lt;dbl&gt;                  &lt;dbl&gt;
+ 1 Alabama                     513                    527                    539
+ 2 Alaska                      492                    500                    517
+ 3 Arizona                     498                    495                    520
+ 4 Arkansas                    513                    526                    543
+ 5 Califor…                    477                    458                    506
+ 6 Colorado                    533                    535                    543
+ 7 Connect…                    463                    467                    493
+ 8 Delaware                    449                    454                    481
+ 9 Florida                     471                    473                    492
+10 Georgia                     459                    462                    482
+# ℹ abbreviated names: ¹​average.math.score_20k.to.40k,
+#   ²​average.verbal.score_20k.to.40k, ³​average.math.score_40k.to.60k
+# ℹ 10 more variables: average.verbal.score_40k.to.60k &lt;dbl&gt;,
+#   average.math.score_60k.to.80k &lt;dbl&gt;, average.verbal.score_60k.to.80k &lt;dbl&gt;,
+#   average.math.score_80k.to.100k &lt;dbl&gt;,
+#   average.verbal.score_80k.to.100k &lt;dbl&gt;, `average.math.score_100k+` &lt;dbl&gt;,
+#   `average.verbal.score_100k+` &lt;dbl&gt;, `average.math.score_20k-` &lt;dbl&gt;, …</code></pre>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="literature-review" class="level2">
+<h2 class="anchored" data-anchor-id="literature-review">Literature Review</h2>
+<p>Despite education being viewed as an equalizer in society, many studies in recent years have highlighted a widening education gap depending on affluence and household income. While the educational gap based on race has shrunk since the 60s, imbalance in college completion and test scores has grown by 40% since the 60s.<span class="citation" data-cites="reardon2018">(<a href="#ref-reardon2018" role="doc-biblioref">Reardon 2018</a>)</span> There are many factors that contribute to this increasing gap in education including differences in resources, time, and other high-stress variables.</p>
+<p>Our research question builds on the article’s focus on the recent discovery that income levels affect education. Rather than focusing on college completion or overall test scores, we will focus on specific school subjects and how they differ based on income levels.</p>
+</section>
+<section id="methodology" class="level2">
+<h2 class="anchored" data-anchor-id="methodology">Methodology</h2>
+<section id="longer-pivot" class="level4">
+<h4 class="anchored" data-anchor-id="longer-pivot">Longer Pivot</h4>
+<p>Figure 1: Barchart of State by Income with Type of Test and Region</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="report_files/figure-html/barchart-by-region-1.png" class="img-fluid" width="1440"></p>
+</div>
+</div>
+<p>We used a barchart due to the variables we were analyzing and the relationships we wanted to assess. For a barchart, we could facet into different regions, compare the categorical variable of income with the quantitative variable of average score, and furthermore differentiate between verbal and math scores using “fill”. Our new variable, Region.Name, allowed us to facet this - we created this variable above with each state in their respective region and joined it with our dataset.</p>
+</section>
+<section id="figure-2-ridgeline-of-score-vs-income" class="level4">
+<h4 class="anchored" data-anchor-id="figure-2-ridgeline-of-score-vs-income">Figure 2: Ridgeline of Score vs Income</h4>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Picking joint bandwidth of 7.47</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="report_files/figure-html/ridgeline totalled-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="figure-3-ridgeline-of-score-vs-income-with-type-of-test" class="level4">
+<h4 class="anchored" data-anchor-id="figure-3-ridgeline-of-score-vs-income-with-type-of-test">Figure 3: Ridgeline of Score vs Income with Type of Test</h4>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Picking joint bandwidth of 8.55</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="report_files/figure-html/ridgeline verbal vs math-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We chose to use a ridgeline model because it’s easy to interpret the different distributions of scores per income category. We can also see general trends in frequency and range of scores through the ridgeline model. It is easier to see the highest frequency (highest peak) of scores per income level than if we had used a boxplot.</p>
+</section>
+<section id="figure-4-linear-regression-of-income-and-region-on-score" class="level4">
+<h4 class="anchored" data-anchor-id="figure-4-linear-regression-of-income-and-region-on-score">Figure 4: Linear Regression of Income and Region on Score</h4>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 9 × 5
+  term                 estimate std.error statistic   p.value
+  &lt;chr&gt;                   &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+1 (Intercept)             498.       1.50     332.  0        
+2 Income20k.to.40k         41.4      1.72      24.1 6.13e-123
+3 Income40k.to.60k         63.2      1.72      36.8 1.61e-269
+4 Income60k.to.80k         73.7      1.72      42.9 0        
+5 Income80k.to.100k        84.8      1.72      49.3 0        
+6 Income100k+             102.       1.72      59.5 0        
+7 Region.NameNortheast    -57.3      1.54     -37.1 4.61e-274
+8 Region.NameSouth        -42.3      1.34     -31.6 1.17e-203
+9 Region.NameWest         -37.9      1.40     -27.0 2.04e-152</code></pre>
+</div>
+</div>
+</section>
+<section id="figure-5-linear-regression-equation" class="level4">
+<h4 class="anchored" data-anchor-id="figure-5-linear-regression-equation">Figure 5: Linear Regression Equation</h4>
+<p><span class="math display">\[
+\widehat{score} = 497.91 + 41.4*Income.20k.to.40k + 63.22*Income.40k.to.60k \\ + 73.72*Income.60k.to.80k + 84.77*Income.80k.to.100k \\ + 102.21*Income.+100k - 57.33*Northeast  \\
+- 42.3*South - 37.86*West
+\]</span></p>
+</section>
+<section id="analysis-of-figures-1-4" class="level4">
+<h4 class="anchored" data-anchor-id="analysis-of-figures-1-4">Analysis of Figures 1-4</h4>
+<p>Upon analyzing the first visualization there appears to be a positive correlation between household income and national math and verbal scores of elementary and secondary students. This graph uses a combination of both math and verbal scores to show a general trend between academics and household income, regardless of subject. Using the density ridges plot, allows the graph to show the frequency of each test score. The students with a household income of 20k showed the highest frequency of test scores at about 425 while students with a household income of 100k+ had the highest frequency of test scores at about 550. This visualization showed a positive linear correlation between the two variables.</p>
+<p>The second visualization was created to allow distinction between regions and the test academic subjects, therefore introducing region as a new variable. This graph provides more insight into if geographic location affects the relationship between average test scores and household income. The results showed that the South and Northeast showed a more positive linear correlation between the two variables, while the North Central and West regions showed more variability yet a slight positive correlation as well.</p>
+</section>
+<section id="justification-for-regression-model-selection-and-analysis-of-linear-regression-equation" class="level4">
+<h4 class="anchored" data-anchor-id="justification-for-regression-model-selection-and-analysis-of-linear-regression-equation">Justification for Regression Model Selection and Analysis of Linear Regression Equation</h4>
+<p>We decided to use the additive linear regression model rather than the interactive linear regression model because we wanted to be able to isolate the relationship of family income on score versus region on score. Additionally, a linear model is used when a response variable is quantitative (which ours is), while logistic is used when a response variable is categorical. If we hold region constant, a student with a family income of 20-40k can expect an on average 41 point increase in score above the baseline, which is the on average score of a student with a family income of less than 20k. Students with a family income of 40-60k can expect a 63 point increase on average above the less than 20k students. This trend of higher scores on average continues as family income increases. Keeping income constant, students from the Northeast region score 57 less points on average than students from the Northcentral region (baseline region). South region students score 42 points less on average than Northcentral students, and West students score 38 points less on average than Northcentral students.</p>
+<p>The pattern of an increase in score coinciding with an increase in family income lends significance to our hypothesis that family income affects students’ scores, specifically that students with a higher family income on average score higher. The regions finding appear to have a significance, but we do not know enough about regional education relationships to interpret this significance. The linear regression clearly points to the Northcentral students as the highest scorers on average, with West students on average scoring the second highest, South as the third lowest on average, and North east as the overall lowest on average.</p>
+</section>
+<section id="aic-analysis-of-potential-regression-models" class="level4">
+<h4 class="anchored" data-anchor-id="aic-analysis-of-potential-regression-models">AIC Analysis of Potential Regression Models</h4>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>parsnip model object
+
+
+Call:
+stats::lm(formula = Score ~ 1, data = data)
+
+Coefficients:
+(Intercept)  
+      525.1  </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>              type_of_test      aic
+1              Control AIC 71547.95
+2             Basic Linear 68720.25
+3    Additive Type of Test 68717.52
+4          Additive Region 67264.20
+5 Interactive Type of Test 68723.34
+6       Interactive Region 67182.58
+7         Interactive Both 67208.83
+8            Additive Both 67260.30</code></pre>
+</div>
+</div>
+</section>
+<section id="justification-for-choice-of-aic-over-r-squared" class="level4">
+<h4 class="anchored" data-anchor-id="justification-for-choice-of-aic-over-r-squared">Justification for Choice of AIC Over R Squared</h4>
+<p>We decided to use AIC, a measure of likelihood (how well a model fits the data), rather than R squared because AIC penalizes the addition of new predictors while R^2 rewards (sometimes artificially) the addition of new variables, no matter how related to the topic those variables are. Since we have worked with models that artificially inflate R squared scores when more variables are added and we knew we wanted to add additional variables to the model, we decided to veer away from the R squared model and try AIC. Because the equation to determine AIC has a negative before the log likelihood, lower AIC values are indicative of better model fits. Based on our forward selection analysis, the best model fit is an interactive model using the explanatory variables of region and score and exclusing the variable of type of test. Because adding type of test as an additional variable in our linear models leaves us with a higher AIC, ultimately we’ve decided not to create different graphs isolating reading or math scores.</p>
+</section>
+<section id="hypothesis-test" class="level3">
+<h3 class="anchored" data-anchor-id="hypothesis-test">Hypothesis Test</h3>
+<section id="data-for-hypothesis" class="level4">
+<h4 class="anchored" data-anchor-id="data-for-hypothesis">Data for Hypothesis</h4>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 6,576
+Columns: 6
+Groups: versus_median [2]
+$ state          &lt;chr&gt; "Alabama", "Alabama", "Alabama", "Alabama", "Alabama", …
+$ Region.Name    &lt;chr&gt; "South", "South", "South", "South", "South", "South", "…
+$ `Type of Test` &lt;chr&gt; "average.math.score", "average.verbal.score", "average.…
+$ Income         &lt;fct&gt; 20k.to.40k, 20k.to.40k, 40k.to.60k, 40k.to.60k, 60k.to.…
+$ Score          &lt;dbl&gt; 513, 527, 539, 551, 550, 564, 566, 577, 588, 590, 462, …
+$ versus_median  &lt;chr&gt; "Less", "Less", "Less", "Less", "Greater", "Greater", "…</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="report_files/figure-html/null distribution-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Please be cautious in reporting a p-value of 0. This result is an
+approximation based on the number of `reps` chosen in the `generate()` step.
+See `?get_p_value()` for more information.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+  p_value
+    &lt;dbl&gt;
+1       0</code></pre>
+</div>
+</div>
+<p>We have conducted a hypothesis test in order to determine whether we can fail to reject the null hypothesis that the true mean score for students with family incomes less than 60k is equal to the true mean score for students with family incomes greater than 60k. Through visualizations, it appears as though there is a trend towards a difference between true mean scores of students with family incomes less than 60k versus greater than 60k, but we conduct a hypothesis test in order to assess whether our sample mean is an unusual observation under the assumption of the null hypothesis. Since it is (and the p-value is significantly small), we can then reject the null hypothesis.</p>
+<p>Decision: With a very small p-value, we reject the null hypothesis that the true mean score for students with family incomes less than 60k is equal to the true mean score for students with family incomes greater than 60k.</p>
+<p>Conclusion: We have strong evidence to conclude that the true mean score for students with family incomes less than 60k is not equal to the true mean score for students with family incomes greater than 60k.</p>
+</section>
+</section>
+</section>
+<section id="results" class="level2">
+<h2 class="anchored" data-anchor-id="results">Results</h2>
+<p>Overall, these two visualizations and the linear regression model as well as our hypothesis test and significantly small p-value support the idea that average household income affects a student’s development in school.</p>
+<p>The visual outputs from our two visualizations align with the output from out additive linear regression model. For example: for region, the facet of Northcentral has higher scores in the bar graph while Northcentral on average has the highest scores in the linear regression model. There was a clear positive trend between family income and score in our ridgeline model which was reflected in the positive trend between higher scores on average and an increase in family income in the linear regression model.</p>
+<p>As the average household income increased so did the average verbal and math scores, regardless of region. There appears to be a significance in the pattern of data that falls in line with our hypothesis since both visualizations and our model showed that students with a household income below the median of 60k had on average lower math and verbal scores than families above the median. These students are more likely to have socioeconomic factors that impact their development in school. However, it can be assessed as to how generalizeable this data can be for the public as there was no information provided as to how this data was collected, it can not be confirmed if random sampling was used.</p>
+<section id="discussion" class="level3">
+<h3 class="anchored" data-anchor-id="discussion">Discussion</h3>
+<p>We can reject the null hypothesis that the true mean of scores of students that come from lower income households (less than 60k) is equal to the true mean of scores of students that come from higher income households (greater than 60k). Furthermore, based on our figures including a bar chart and two ridgeline graphs, we have observed a trend towards a higher score when a student has a higher family income. Finally, it appears as though region has an impact on the strength of correlation between income and score, but that must be further exained. Our hypothesis test led us to fail to reject the null hypothesis, which corroborated our hypothesis and the observations we made of our visualizations and additive linear regression model.</p>
+<p>Because education and testing is impacted by a variety of different factors that we were unable to control for, including variables like quality of school district, teacher skill, level of parental involvement, we are unable to determine a causal relationship between income and score. Additionally, we are assuming that the data is accurate and collected bias-free, which is something we cannot verify without a conversation with the scholars who collected the Department of Education Data.</p>
+<p>We hope to build upon this research in the future in two ways: first, by controlling more variables to create a more accurate model and second, by exploring the relationship between region and score to a greater extent. We did not run a hypothesis test for the potential of a difference in score based on region or specifically one income level to another which could be a potential area for further research.</p>
+<p>We could potentially control the additional variables that impact education by creating another dataset with more information about students, including their level of parental involvement in their education and the funding of their school.</p>
+
+
+
+</section>
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-USDE" class="csl-entry" role="listitem">
+Education., US Department of. 2023. <span>“EDFacts Data Files: U.s. Department of Education.”</span> In, 1–3. US Gov. <a href="https://doi.org/10.4324/9780429499821-33">https://doi.org/10.4324/9780429499821-33</a>.
+</div>
+<div id="ref-reardon2018" class="csl-entry" role="listitem">
+Reardon, Sean F. 2018. <span>“The Widening Academic Achievement Gap Between the Rich and the Poor.”</span> In, 177–89. Routledge. <a href="https://doi.org/10.4324/9780429499821-33">https://doi.org/10.4324/9780429499821-33</a>.
+</div>
+</div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

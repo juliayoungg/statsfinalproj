@@ -1,0 +1,8 @@
+---
+title: "Team 5"
+subtitle: "STA 199 Project"
+format: html
+editor: visual
+---
+
+Our project primarily assessed the impact of a child's family's income on verbal and math scores on a federal exam administered to primary and secondary aged students. We secondarily included the variable of "region" to provided a basis for further research. Based on visualizations, a hypothesis test, and a linear regression, there appears to be an observable significance that points towards a higher income level correlating to a higher score. Both visualizations and our model showed that students with a household income below the median of 60k had on average lower math and verbal scores than families above the median which provided strong evidence for the rejection of the null hypothesis and the potential veracity of our provided hypothesis. We cannot determine a direct causation between income level and score, however, it can not be assessed as to how generalization this data can be for academic development of a student overall since this data covered only one federally administered test and relevant factors like parental involvement and school funding was not included in the data set nor our model. Further research into the impact of region on score is recommended due to preliminary findings in our visualizations.
